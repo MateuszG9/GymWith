@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "596123815041",
+    "project_id": "gymwith-d67be",
+    "storage_bucket": "gymwith-d67be.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596123815041:android:b21d453ea4de17375b5180",
+        "android_client_info": {
+          "package_name": "com.example.gymwith"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9lPssZ_1CfEbKpPjPONPyW7Dg_WSke4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

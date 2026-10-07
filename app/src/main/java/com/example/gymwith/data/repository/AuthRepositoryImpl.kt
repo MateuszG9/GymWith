@@ -1,35 +1,32 @@
 package com.example.gymwith.data.repository
 // implementacja z domain -> łączy komunikację sieciową z lokalnym zapisem sesji
 
-import com.example.gymwith.data.local.TokenManager
-import com.example.gymwith.data.remote.api.AuthApiService
-import com.example.gymwith.data.remote.dto.AuthResponseDto
-import com.example.gymwith.data.remote.dto.LoginRequestDto
-import com.example.gymwith.data.remote.dto.RegisterRequestDto
+import com.google.firebase.auth.FirebaseAuth
 import com.example.gymwith.domain.repository.AuthRepository
+import kotlinx.coroutines.tasks.await
 
 class AuthRepositoryImpl(
-    private val apiService: AuthApiService,
-    private val tokenManager: TokenManager
-) : AuthRepository{
+    private val firebaseAuth: FirebaseAuth) : AuthRepository {
 
-    override suspend fun login(request: LoginRequestDto): Result<AuthResponseDto>{
-        return runCatching{
-            val response = apiService.login(request)
-            tokenManager.saveToken(response.token)
-            response
+    override suspend fun login(email: String, pass: String): Result<Unit> {
+        return runCatching {
+            firebaseAuth.signInWithEmailAndPassword(email, pass).await()
+            Unit
         }
     }
 
-    override suspend fun register(request: RegisterRequestDto): Result<AuthResponseDto>{
-        return runCatching{
-            val response = apiService.register(request)
-            tokenManager.saveToken(response.token)
-            response
+    override suspend fun register(email: String, pass: String): Result<Unit> {
+        return runCatching {
+            firebaseAuth.createUserWithEmailAndPassword(email, pass).await()
+            Unit
         }
     }
 
-    override suspend fun logout(){
-        tokenManager.clearToken()
+    override suspend fun logout() {
+        firebaseAuth.signOut()
+    }
+
+    override fun isUserLoggedIn(): Boolean {
+        return firebaseAuth.currentUser != null
     }
 }
